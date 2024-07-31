@@ -13,9 +13,6 @@ type UserMenuProps = {
 
 
 export default function UserMenu({ user }: UserMenuProps) {
-
-
-
   return (
     <>
       {user && (
