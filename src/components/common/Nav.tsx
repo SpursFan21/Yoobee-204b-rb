@@ -5,25 +5,76 @@ import type { inferRouterOutputs } from "@trpc/server";
 import { type AppRouter } from "~/server/api/root";
 import { IconBook } from "@tabler/icons-react";
 import SiteTitle from "./SiteTitle";
+import { LayoutGroup, motion } from "framer-motion";
 
 type NavProps = {
   user?: inferRouterOutputs<AppRouter>["user"]["getUser"];
+  active?: string;
 };
 
-export default function Nav({ user }: NavProps) {
+type NavLinkProps = {
+  href: string;
+  text: string;
+  active?: boolean;
+};
+
+const links: NavLinkProps[] = [
+  { href: "/", text: "Home" },
+  { href: "/about", text: "About" },
+  { href: "/features", text: "Features" },
+];
+
+export default function Nav({ user, active }: NavProps) {
+  links.forEach((link) => {
+    link.active = link.href === active;
+  });
+
   return (
     <>
-    <nav className="flex h-20 w-full items-center bg-black/50 fixed px-8 sm:px-20 py-2 backdrop-blur-lg">
-      <Link href={"/"} className="text-xl font-bold text-white flex items-center gap-2">
-        <IconBook/>
-        <SiteTitle/>
-      </Link>
+      <div className="flex w-full justify-center">
+        <nav className="fixed mt-8 flex h-20 w-11/12 items-center justify-between rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
+          <Link
+            href={"/"}
+            className="flex items-center gap-2 text-xl font-bold text-white"
+          >
+            <IconBook />
+            <div className="hidden lg:block">
+              <SiteTitle />
+            </div>
+          </Link>
 
-      <div className="ml-auto flex gap-4">
-        <UserMenu user={user} />
+
+          <div className="flex gap-4">
+            <LayoutGroup>
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`group relative transition-colors duration-300 ${link.active ? "text-white/80" : "text-white/50"} hover:text-white`}
+              >
+                {link.text}
+                {link.active && (
+                  <motion.div
+                    className={`absolute mt-1 h-1 w-full rounded-full ${link.active ? "bg-white/80" : "bg-white/50"} group-hover:bg-white`}
+                    layoutId="nav-active"
+                    transition={{
+                      type: "spring",
+                      damping: 12,
+                      stiffness: 100,
+                    }}
+                  ></motion.div>
+                )}
+              </Link>
+            ))}
+            </LayoutGroup>
+          </div>
+
+          <div className="flex">
+            <UserMenu user={user} />
+          </div>
+        </nav>
       </div>
-    </nav>
-    <div className="h-20"></div>
+      <div className="h-20"></div>
     </>
   );
 }

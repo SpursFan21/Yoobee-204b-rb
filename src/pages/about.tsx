@@ -5,7 +5,7 @@ import SiteTitle from "~/components/common/SiteTitle";
 
 import { api } from "~/utils/api";
 
-export default function Home() {
+export default function About() {
   const myUser = api.user.getUser.useQuery();
 
   const router = useRouter();
@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Cool book library</title>
+        <title>Cool book library | About</title>
         <meta name="description" content="Cool book library" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
