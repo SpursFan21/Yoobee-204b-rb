@@ -21,10 +21,14 @@ export default function About() {
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
         <Nav user={myUser.data} active={path} />
 
+        <div className="h-24"></div>
+
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
           <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-[5rem]">
             <SiteTitle />
           </h1>
+
+          <h1 className="text-5xl font-extrabold text-white">About</h1>
         </div>
       </main>
     </>

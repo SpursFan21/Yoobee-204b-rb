@@ -31,14 +31,14 @@ export default function Nav({ user, active }: NavProps) {
 
   return (
     <>
-      <div className="flex w-full justify-center">
+      <div className="flex w-full justify-center absolute z-20">
         <nav className="fixed mt-8 flex h-20 w-11/12 items-center justify-between rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
           <Link
             href={"/"}
             className="flex items-center gap-2 text-xl font-bold text-white"
           >
-            <IconBook />
-            <div className="hidden lg:block">
+            <IconBook height={36} width={36} />
+            <div className="hidden lg:block text-2xl">
               <SiteTitle />
             </div>
           </Link>
@@ -74,7 +74,6 @@ export default function Nav({ user, active }: NavProps) {
           </div>
         </nav>
       </div>
-      <div className="h-20"></div>
     </>
   );
 }
