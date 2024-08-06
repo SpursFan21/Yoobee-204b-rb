@@ -18,35 +18,29 @@
   
 } */
 
-/* .grid-bg {
-  position: relative;
+.grid-bg {
+  background-image: url('/bg.svg');
+  background-repeat: repeat;
+  background-size: 1000px;
+  background-origin: 50vw 50vh;
+  background-position: center;
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-} */
+  
+}
 
-/* .grid-bg::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
-  opacity: 0.8;
-  z-index: -1;
-} */
+
+
 
 .grid-bg::after {
+  --size: calc(20vw + 20vh);
+  --blur: calc(30vw + 50vh);
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, transparent 400px, #000 800px);
+  background-image: radial-gradient(circle, transparent var(--size), #000 var(--blur));
   background-repeat: no-repeat;
   background-size: 100vw 180vh;
+
 
 }

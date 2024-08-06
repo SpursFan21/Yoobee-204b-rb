@@ -32,7 +32,7 @@ export default function Nav({ user, active }: NavProps) {
   return (
     <>
       <div className="flex w-full justify-center absolute z-20">
-        <nav className="fixed mt-8 flex h-20 w-11/12 items-center justify-between rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
+        <nav className="fixed mt-8 flex h-20 w-11/12 items-center justify-between relative rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
           <Link
             href={"/"}
             className="flex items-center gap-2 text-xl font-bold text-white"
@@ -44,23 +44,25 @@ export default function Nav({ user, active }: NavProps) {
           </Link>
 
 
-          <div className="flex gap-4">
+          <div className="flex gap-4 absolute left-1/2 -translate-x-1/2">
             <LayoutGroup>
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`group relative transition-colors duration-300 ${link.active ? "text-white/80" : "text-white/50"} hover:text-white`}
+                className={`group relative transition-colors font-medium duration-300 ${link.active ? "text-white/80" : "text-white/50"} hover:text-white`}
               >
                 {link.text}
                 {link.active && (
                   <motion.div
                     className={`absolute mt-1 h-1 w-full rounded-full ${link.active ? "bg-white/80" : "bg-white/50"} group-hover:bg-white`}
-                    layoutId="nav-active"
+                    layoutId="nav-active-bar"
                     transition={{
                       type: "spring",
                       damping: 12,
                       stiffness: 100,
+                      // bounce: 10,
+                      velocity: 10,
                     }}
                   ></motion.div>
                 )}
