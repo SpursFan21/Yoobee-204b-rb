@@ -55,6 +55,7 @@ model VerificationToken {
 
 model User {
     id            String    @id @default(cuid())
+    createdAt     DateTime  @default(now())
     name          String?
     email         String?   @unique
     emailVerified DateTime?
@@ -69,6 +70,7 @@ model User {
 
 model Book {
     id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
     title       String
     author      String
     description String
@@ -93,6 +95,7 @@ model UserBook {
 
 model Review {
     id      String @id @default(cuid())
+    createdAt DateTime @default(now())
     rating  Int
     comment String
     book    Book @relation(fields: [bookId], references: [id])
