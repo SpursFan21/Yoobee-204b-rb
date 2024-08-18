@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Nav from "~/components/Common/Nav";
-import SiteTitle from "~/components/Common/SiteTitle";
+import Nav from "~/components/common/Nav";
+import SiteTitle from "~/components/common/SiteTitle";
 
 import { api } from "~/utils/api";
 

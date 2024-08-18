@@ -2,7 +2,7 @@ import { IconBook } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-import Nav from "~/components/Common/Nav";
+import Nav from "~/components/common/Nav";
 import { Button } from "~/components/ui/button";
 
 import { api } from "~/utils/api";
@@ -40,7 +40,7 @@ export default function Home() {
                     if (myUser.data) {
                       await router.push("/account");
                     } else {
-                      await signIn(undefined, {callbackUrl: "/account"});
+                      await signIn(undefined, { callbackUrl: "/account" });
                     }
                   }}
                   size={"lg"}

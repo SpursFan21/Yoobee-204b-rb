@@ -1,6 +1,6 @@
 import { type GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import Nav from "~/components/Common/Nav";
+import Nav from "~/components/common/Nav";
 import { api } from "~/utils/api";
 
 import { requireAuth } from "~/utils/requireAuth";
