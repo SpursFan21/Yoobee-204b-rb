@@ -19,7 +19,7 @@ import { Input } from "~/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
-import { Book } from "@prisma/client";
+import { type Book } from "@prisma/client";
 import AccountBookList from "~/components/Account/AccountBookList";
 
 const booksText: Book[] = [
