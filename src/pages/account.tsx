@@ -20,7 +20,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
 import { type Book } from "@prisma/client";
-import AccountBookList from "~/components/account/AccountBookList";
+import AccountBookListItem from "~/components/account/AccountBookListItem";
 
 const booksText: Book[] = [
   {
@@ -147,7 +147,7 @@ export default function Account() {
 
         <div className="mt-24 flex w-[50rem] flex-col gap-2 rounded-lg bg-zinc-900 p-4">
           {booksText.map((book) => (
-            <AccountBookList key={book.id} book={book} />
+            <AccountBookListItem key={book.id} book={book} />
             // <p key={book.id}>{book.title}</p>
           ))}
         </div>

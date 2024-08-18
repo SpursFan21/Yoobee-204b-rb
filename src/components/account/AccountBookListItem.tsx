@@ -6,7 +6,7 @@ type AccountBookListProps = {
   book: Book;
 };
 
-export default function AccountBookList({ book }: AccountBookListProps) {
+export default function AccountBookListItem({ book }: AccountBookListProps) {
   return (
     <div className="flex w-full gap-4 rounded-lg p-2 transition-colors bg-black bg-opacity-0 hover:bg-opacity-30">
       <div className="w-24 shrink-0">
