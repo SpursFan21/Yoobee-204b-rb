@@ -1,7 +1,6 @@
 import { type GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Nav from "~/components/common/Nav";
-import AccountBookList from "~/components/account/AccountBookList";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { requireAuth } from "~/utils/requireAuth";
@@ -147,7 +146,8 @@ export default function Account() {
 
         <div className="mt-24 flex w-[50rem] flex-col gap-2 rounded-lg bg-zinc-900 p-4">
           {booksText.map((book) => (
-            <AccountBookList key={book.id} book={book} />
+            // <AccountBookList key={book.id} book={book} />
+            <p key={book.id}>{book.title}</p>
           ))}
         </div>
       </main>
