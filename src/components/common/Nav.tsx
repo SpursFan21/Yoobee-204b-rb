@@ -48,7 +48,7 @@ export default function Nav({ user }: NavProps) {
   return (
     <>
       <div className="absolute z-20 flex w-full justify-center">
-        <nav className="fixed relative mt-8 flex h-20 w-11/12 items-center justify-between rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
+        <nav className="relative mt-8 flex h-20 w-11/12 items-center justify-between rounded-lg border-2 border-zinc-800 bg-zinc-900 px-8 backdrop-blur-lg lg:px-20 xl:w-8/12">
           <Link
             href={"/"}
             className="relative flex items-center gap-2 text-xl font-bold text-white"
