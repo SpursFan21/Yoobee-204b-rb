@@ -1,15 +1,11 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Nav from "~/components/common/Nav";
-import SiteTitle from "~/components/common/SiteTitle";
+import Nav from "~/components/Common/Nav";
+import SiteTitle from "~/components/Common/SiteTitle";
 
 import { api } from "~/utils/api";
 
 export default function About() {
   const myUser = api.user.getUser.useQuery();
-
-  const router = useRouter();
-  const path = router.pathname;
 
   return (
     <>
@@ -19,7 +15,7 @@ export default function About() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
-        <Nav user={myUser.data} active={path} />
+        <Nav user={myUser.data} />
 
         <div className="h-24"></div>
 

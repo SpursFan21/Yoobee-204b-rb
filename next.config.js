@@ -9,20 +9,26 @@ const config = {
   reactStrictMode: true,
 
   images: {
-    domains: ["cdn.discordapp.com","lh3.googleusercontent.com"],
+    // domains: ["cdn.discordapp.com","lh3.googleusercontent.com"],
     remotePatterns: [
       {
-        protocol: 'https',
+        protocol: "https",
         hostname: 'cdn.discordapp.com"',
-        port: '',
-        pathname: '**',
+        port: "",
+        pathname: "**",
       },
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        port: '',
-        pathname: '**',
-      }
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 

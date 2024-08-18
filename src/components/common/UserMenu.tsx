@@ -1,16 +1,21 @@
 import { signIn, signOut } from "next-auth/react";
-import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 
 import type { inferRouterOutputs } from "@trpc/server";
 import { type AppRouter } from "~/server/api/root";
-import { IconLayoutDashboard, IconLogout, IconSettings, } from "@tabler/icons-react";
+import { IconLogout, IconUser } from "@tabler/icons-react";
 
 type UserMenuProps = {
   user?: inferRouterOutputs<AppRouter>["user"]["getUser"];
 };
-
 
 export default function UserMenu({ user }: UserMenuProps) {
   return (
@@ -18,7 +23,7 @@ export default function UserMenu({ user }: UserMenuProps) {
       {user && (
         <Menu as="div" className="relative inline-block">
           <MenuButton>
-            <div className="h-12 w-12 overflow-hidden rounded-full">
+            <div className="h-12 w-12 overflow-hidden rounded-full transition-all active:scale-90">
               {user.user?.image && (
                 <Image
                   src={user.user?.image}
@@ -43,7 +48,6 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <h2 className="text-xl font-semibold text-white">
                     {user.user?.name}
                   </h2>
-
                 </div>
               </MenuItem>
 
@@ -52,30 +56,18 @@ export default function UserMenu({ user }: UserMenuProps) {
                   <MenuItem>
                     <Link
                       className="flex w-full items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-left font-semibold text-white no-underline transition hover:bg-white/20"
-                      href={"/profile"}
+                      href={"/account"}
                     >
-                      Profile
-                      <IconLayoutDashboard />
+                      Account
+                      <IconUser />
                     </Link>
                   </MenuItem>
-
-                  <MenuItem>
-                    <Link
-                      className="flex w-full items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-left font-semibold text-white no-underline transition hover:bg-white/20"
-                      href={"/settings"}
-                    >
-                      Settings
-                      <IconSettings />
-                    </Link>
-                  </MenuItem>
-
-                  
                 </>
               )}
 
               <MenuItem>
                 <button
-                  className="w-full flex items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-left font-semibold text-red-600 no-underline transition hover:bg-white/20"
+                  className="flex w-full items-center gap-2 rounded-md bg-white/10 px-4 py-2 text-left font-semibold text-red-500 no-underline transition hover:bg-white/20"
                   onClick={() => void signOut()}
                 >
                   Sign out

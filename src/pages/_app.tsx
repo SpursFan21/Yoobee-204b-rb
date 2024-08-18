@@ -1,22 +1,24 @@
 import { GeistSans } from "geist/font/sans";
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import "~/styles/grid-bg.css";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+import { ThemeProvider } from "~/components/theme-provider";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <SessionProvider session={session}>
-      <div className={GeistSans.className}>
+    <div className={GeistSans.className}>
+      <ThemeProvider attribute="class" defaultTheme="dark">
         <Component {...pageProps} />
-      </div>
-    </SessionProvider>
+        <ToastContainer theme="dark" />
+      </ThemeProvider>
+    </div>
   );
 };
 

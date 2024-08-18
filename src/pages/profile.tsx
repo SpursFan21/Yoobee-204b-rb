@@ -1,17 +1,12 @@
 import { type GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import Nav from "~/components/common/Nav";
+import Nav from "~/components/Common/Nav";
 import { api } from "~/utils/api";
 
 import { requireAuth } from "~/utils/requireAuth";
 
 export default function Profile() {
-
   const myUser = api.user.getUser.useQuery();
-
-  const router = useRouter();
-  const path = router.pathname;
 
   return (
     <>
@@ -21,15 +16,13 @@ export default function Profile() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <Nav user={myUser.data} active={path} />
+        <Nav user={myUser.data} />
 
         <div className="h-36"></div>
 
-
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            Profile
-          </h1>
-
+        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+          Profile
+        </h1>
       </main>
     </>
   );
