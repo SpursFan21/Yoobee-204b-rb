@@ -1,6 +1,7 @@
 import { type GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Nav from "~/components/common/Nav";
+import AccountBookList from "~/components/account/AccountBookList";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import { requireAuth } from "~/utils/requireAuth";
@@ -20,7 +21,6 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
 import { type Book } from "@prisma/client";
-import AccountBookList from "~/components/account/AccountBookList";
 
 const booksText: Book[] = [
   {
