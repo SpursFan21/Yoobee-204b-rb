@@ -3,6 +3,7 @@ import SiteTitle from "~/components/common/SiteTitle";
 import Nav from "~/components/common/Nav";
 
 import { api } from "~/utils/api";
+import Footer from "~/components/common/Footer";
 
 export default function About() {
   const myUser = api.user.getUser.useQuery();
@@ -27,6 +28,7 @@ export default function About() {
           <h1 className="text-5xl font-extrabold text-white">About</h1>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

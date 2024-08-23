@@ -27,6 +27,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table";
+import Footer from "~/components/common/Footer";
 
 export default function Account() {
   const myUser = api.user.getUser.useQuery();
@@ -128,7 +129,7 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="max-w-full px-8 md:max-w-[80%] mt-12">
+        <div className="max-w-full px-8 md:max-w-[80%] my-12">
           <div className="full flex justify-between items-center py-8">
             <h1 className="text-2xl md:text-4xl">Your Books:</h1>
             <Button>Add Book</Button>
@@ -152,6 +153,7 @@ export default function Account() {
           </Table>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

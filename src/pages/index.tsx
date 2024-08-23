@@ -2,6 +2,7 @@ import { IconBook } from "@tabler/icons-react";
 import { signIn } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
+import Footer from "~/components/common/Footer";
 import Nav from "~/components/common/Nav";
 import { Button } from "~/components/ui/button";
 
@@ -69,6 +70,7 @@ export default function Home() {
 
         <div className="h-48 w-full bg-black"></div>
       </main>
+      <Footer />
     </>
   );
 }
