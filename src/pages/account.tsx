@@ -49,6 +49,7 @@ const booksText: Book[] = [
 
 export default function Account() {
   const myUser = api.user.getUser.useQuery();
+  const myBooks = api.book.getUserBooks.useQuery();
 
   const userMutation = api.user.updateUser.useMutation();
 
@@ -90,8 +91,8 @@ export default function Account() {
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
         <Nav user={myUser.data} />
 
-        <div className="mt-52 grid w-full grid-cols-2 gap-16">
-          <div className="ml-auto">
+        <div className="mt-36 grid w-full grid-cols-1 gap-4 lg:mt-52 lg:grid-cols-2 lg:gap-16">
+          <div className="flex justify-center lg:justify-end">
             <div className="h-32 w-32 overflow-hidden rounded-full">
               {myUser.data?.user?.image && (
                 <Image
@@ -103,9 +104,13 @@ export default function Account() {
               )}
             </div>
           </div>
-          <div className="mt-4 flex flex-col justify-center text-white">
-            <p className="text-4xl">Name: {myUser.data?.user?.name}</p>
-            <p className="text-2xl">Email: {myUser.data?.user?.email}</p>
+          <div className="m-4 flex flex-col items-center justify-center text-white lg:mt-4 lg:items-start">
+            <p className="text-2xl lg:text-4xl">
+              Name: {myUser.data?.user?.name}
+            </p>
+            <p className="text-base md:text-2xl">
+              Email: {myUser.data?.user?.email}
+            </p>
 
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
               <DialogTrigger asChild>
@@ -145,11 +150,18 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="mt-24 flex w-[50rem] flex-col gap-2 rounded-lg bg-zinc-900 p-4">
-          {booksText.map((book) => (
-            <AccountBookListItem key={book.id} book={book} />
-            // <p key={book.id}>{book.title}</p>
-          ))}
+        <div className="px-8 lg:mt-24">
+          <div className="mt-4 grid grid-cols-1 gap-4 rounded-lg bg-zinc-900 p-2 md:p-4">
+            {/* {booksText.map((book) => (
+              <AccountBookListItem key={book.id} book={book} />
+              // <p key={book.id} className="w-full bg-blue-600 p-4">
+              //   {book.title}
+              // </p>
+            ))} */}
+            {myBooks.data?.map((userBook) => (
+              <AccountBookListItem key={userBook.id} book={userBook.book} />
+            ))}
+          </div>
         </div>
       </main>
     </>

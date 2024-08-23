@@ -20,7 +20,6 @@ type NavLinkProps = {
 const links: NavLinkProps[] = [
   { href: "/", text: "Home" },
   { href: "/about", text: "About" },
-  { href: "/features", text: "Features" },
 ];
 
 const animationOptions: Transition = {
@@ -34,16 +33,14 @@ const animationOptions: Transition = {
 export default function Nav({ user }: NavProps) {
   const router = useRouter();
   const path = router.pathname;
-  let noActiveLink = false;
+  let accountPage = false;
 
   links.forEach((link) => {
     link.active = link.href === path;
   });
 
   // check if the path is not in the links
-  if (links.every((link) => link.href !== path)) {
-    noActiveLink = true;
-  }
+  accountPage = path === "/account";
 
   return (
     <>
@@ -70,7 +67,7 @@ export default function Nav({ user }: NavProps) {
                   {link.text}
                   {link.active && (
                     <motion.div
-                      className={`absolute mt-1 h-1 w-full rounded-full ${link.active ? "bg-white/80" : "bg-white/50"} group-hover:bg-white`}
+                      className={`absolute mt-1 h-1 w-full rounded-full bg-white/80 group-hover:bg-white`}
                       layoutId="nav-active-bar"
                       transition={animationOptions}
                     ></motion.div>
@@ -82,9 +79,9 @@ export default function Nav({ user }: NavProps) {
 
           <div className="flex">
             <UserMenu user={user} />
-            {noActiveLink && (
+            {accountPage && (
               <motion.div
-                className={`absolute mt-14 h-1 w-12 rounded-full bg-white/50`}
+                className={`absolute mt-14 h-1 w-12 rounded-full bg-white/80`}
                 layoutId="nav-active-bar"
                 transition={animationOptions}
               ></motion.div>

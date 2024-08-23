@@ -9,7 +9,7 @@
 }
 
 .grid-bg::after {
-  --size: calc(20vw + 20vh);
+  --size: calc(20vw + 10vh);
   --blur: calc(30vw + 50vh);
   content: "";
   position: absolute;

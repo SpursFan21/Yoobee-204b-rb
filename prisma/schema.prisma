@@ -82,8 +82,8 @@ model Book {
     description String
     image       String
 
-    copys      Int
-    checkedOut Int
+    // copys      Int
+    // checkedOut Int
     users       UserBook[]
 
     reviews     Review[]
