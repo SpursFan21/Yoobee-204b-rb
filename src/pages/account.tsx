@@ -19,33 +19,9 @@ import { Input } from "~/components/ui/input";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
-import { type Book } from "@prisma/client";
 import AccountBookListItem from "~/components/account/AccountBookListItem";
 
-const booksText: Book[] = [
-  {
-    id: "123",
-    title: "Book 1",
-    author: "Author 1",
-    createdAt: new Date(),
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis orci eu finibus maximus. Morbi feugiat quam nibh, vel aliquet dolor porttitor nec. Proin accumsan turpis consectetur,",
-    image: "https://via.placeholder.com/150",
-    copys: 1,
-    checkedOut: 0,
-  },
-  {
-    id: "124",
-    title: "Book 2",
-    author: "Author 2",
-    createdAt: new Date(),
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer mattis orci eu finibus maximus. Morbi feugiat quam nibh, vel aliquet dolor porttitor nec. Proin accumsan turpis consectetur,",
-    image: "https://via.placeholder.com/150",
-    copys: 1,
-    checkedOut: 0,
-  },
-];
+
 
 export default function Account() {
   const myUser = api.user.getUser.useQuery();
