@@ -90,13 +90,13 @@ model Book {
 }
 
 model UserBook {
-    id     String @default(cuid())
+    id     String @id @default(cuid())
     userId String
     bookId String
     user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
     book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
-    @@id([userId, bookId])
+    progress String @default("not-started")
 }
 
 model Review {

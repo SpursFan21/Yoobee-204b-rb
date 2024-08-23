@@ -13,6 +13,10 @@ const getUserBooks = protectedProcedure.query(async ({ ctx }) => {
     },
   });
 
+  books.sort((a, b) => {
+    return a.book.title.localeCompare(b.book.title);
+  });
+
   return books;
 });
 
@@ -29,7 +33,46 @@ const getBookById = protectedProcedure
       },
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    return book;
+  });
+
+const updateProgress = protectedProcedure
+  .input(
+    z.object({
+      id: z.string(),
+      progress: z.string(),
+    }),
+  )
+  .mutation(async ({ input, ctx }) => {
+    const book = await db.userBook.update({
+      where: {
+        id: input.id,
+        userId: ctx.session?.user.id,
+      },
+      data: {
+        progress: input.progress,
+      },
+    });
+
+    return book;
+  });
+
+const getUserBook = protectedProcedure
+  .input(
+    z.object({
+      bookId: z.string(),
+      userId: z.string(),
+    }),
+  )
+  .query(async ({ input }) => {
+    const book = await db.userBook.findFirst({
+      where: {
+        userId: input.userId,
+        bookId: input.bookId,
+      },
+    });
 
     return book;
   });
@@ -37,4 +80,6 @@ const getBookById = protectedProcedure
 export const bookRouter = createTRPCRouter({
   getUserBooks,
   getBookById,
+  updateProgress,
+  getUserBook,
 });

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import SiteTitle from "~/components/common/SiteTitle";
 import Nav from "~/components/common/Nav";
 
 import { api } from "~/utils/api";
@@ -11,6 +10,10 @@ export default function BookPage() {
 
   const myUser = api.user.getUser.useQuery();
   const thisBook = api.book.getBookById.useQuery({ id: bookId as string });
+  const userBook = api.book.getUserBook.useQuery({
+    bookId: bookId as string,
+    userId: myUser.data?.user?.id ?? "",
+  });
 
   return (
     <>
@@ -27,6 +30,15 @@ export default function BookPage() {
         {thisBook.isLoading && <h1 className="text-4xl">Loading...</h1>}
 
         {thisBook.error && <div>Error: {thisBook.error.message}</div>}
+
+        {!userBook.isLoading && !userBook.data && <div>you dont have this</div>}
+
+        {thisBook.data && userBook.data && (
+          <div>
+            <h1>you have this</h1>
+            <span>{userBook.data.progress}</span>
+          </div>
+        )}
 
         {thisBook.data && (
           <div className="flex gap-4">

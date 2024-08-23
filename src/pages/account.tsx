@@ -20,8 +20,13 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
 import AccountBookListItem from "~/components/account/AccountBookListItem";
-
-
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
 
 export default function Account() {
   const myUser = api.user.getUser.useQuery();
@@ -67,8 +72,8 @@ export default function Account() {
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
         <Nav user={myUser.data} />
 
-        <div className="mt-36 grid w-full grid-cols-1 gap-4 lg:mt-52 lg:grid-cols-2 lg:gap-16">
-          <div className="flex justify-center lg:justify-end">
+        <div className="mt-36 grid w-full grid-cols-1 gap-4">
+          <div className="flex justify-center ">
             <div className="h-32 w-32 overflow-hidden rounded-full">
               {myUser.data?.user?.image && (
                 <Image
@@ -80,7 +85,7 @@ export default function Account() {
               )}
             </div>
           </div>
-          <div className="m-4 flex flex-col items-center justify-center text-white lg:mt-4 lg:items-start">
+          <div className="m-4 flex flex-col items-center justify-center text-white">
             <p className="text-2xl lg:text-4xl">
               Name: {myUser.data?.user?.name}
             </p>
@@ -90,9 +95,6 @@ export default function Account() {
 
             <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
               <DialogTrigger asChild>
-                {/* <button className="mt-4 flex w-fit rounded-xl bg-zinc-700 px-4 py-2 text-xl text-white transition-all hover:bg-zinc-600 active:scale-90">
-                  Edit details
-                </button> */}
                 <Button className="mt-4 w-fit">Edit details</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
@@ -126,18 +128,28 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="px-8 lg:mt-24">
-          <div className="mt-4 grid grid-cols-1 gap-4 rounded-lg bg-zinc-900 p-2 md:p-4">
-            {/* {booksText.map((book) => (
-              <AccountBookListItem key={book.id} book={book} />
-              // <p key={book.id} className="w-full bg-blue-600 p-4">
-              //   {book.title}
-              // </p>
-            ))} */}
-            {myBooks.data?.map((userBook) => (
-              <AccountBookListItem key={userBook.id} book={userBook.book} />
-            ))}
+        <div className="max-w-full px-8 md:max-w-[80%] mt-12">
+          <div className="full flex justify-between items-center py-8">
+            <h1 className="text-2xl md:text-4xl">Your Books:</h1>
+            <Button>Add Book</Button>
           </div>
+
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead scope="col">Img</TableHead>
+                <TableHead scope="col">Title</TableHead>
+                <TableHead scope="col">Author</TableHead>
+                <TableHead scope="col">Progress</TableHead>
+                <TableHead scope="col">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {myBooks.data?.map((userBook) => (
+                <AccountBookListItem key={userBook.id} userBook={userBook} />
+              ))}
+            </TableBody>
+          </Table>
         </div>
       </main>
     </>
