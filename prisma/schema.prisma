@@ -71,6 +71,8 @@ model User {
 
     books         UserBook[]
 
+    createdBooks  Book[]
+
     reviews       Review[]
 }
 
@@ -85,6 +87,9 @@ model Book {
     // copys      Int
     // checkedOut Int
     users       UserBook[]
+
+    createdById String?
+    createdBy  User?     @relation(fields: [createdById], references: [id], onDelete: SetNull)
 
     reviews     Review[]
 }
