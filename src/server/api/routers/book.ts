@@ -110,10 +110,23 @@ const addBook = protectedProcedure
     return book;
   });
 
+  const deleteFromUserBooks = protectedProcedure.input(z.object({
+    userBookId: z.string(),
+  })).mutation(async ({ input, ctx }) => {
+    await db.userBook.delete({
+      where: {
+        id: input.userBookId,
+      },
+    });
+
+    return true;
+  });
+
 export const bookRouter = createTRPCRouter({
   getUserBooks,
   getBookById,
   updateProgress,
   getUserBook,
   addBook,
+  deleteFromUserBooks,
 });
