@@ -83,8 +83,8 @@ export default function AccountBookListItem({
           <Image
             src={userBook.book.image}
             alt="book cover"
-            width={1000}
-            height={1000}
+            width={100}
+            height={100}
           />
         </TableCell>
         <TableCell>{userBook.book.title}</TableCell>

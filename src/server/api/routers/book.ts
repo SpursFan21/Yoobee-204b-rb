@@ -77,9 +77,43 @@ const getUserBook = protectedProcedure
     return book;
   });
 
+const addBook = protectedProcedure
+  .input(
+    z.object({
+      title: z.string(),
+      author: z.string(),
+      description: z.string(),
+    }),
+  )
+  .mutation(async ({ input, ctx }) => {
+    const book = await db.book.create({
+      data: {
+        title: input.title,
+        author: input.author,
+        description: input.description,
+        image: "",
+        createdBy: {
+          connect: {
+            id: ctx.session?.user.id,
+          },
+        },
+      },
+    });
+
+    await db.userBook.create({
+      data: {
+        userId: ctx.session?.user.id,
+        bookId: book.id
+      },
+    });
+
+    return book;
+  });
+
 export const bookRouter = createTRPCRouter({
   getUserBooks,
   getBookById,
   updateProgress,
   getUserBook,
+  addBook,
 });
