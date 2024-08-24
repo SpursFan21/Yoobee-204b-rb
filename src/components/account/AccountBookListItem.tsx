@@ -46,6 +46,7 @@ export default function AccountBookListItem({
 }: AccountBookListProps) {
   const myBooks = api.book.getUserBooks.useQuery();
   const bookProgressMutation = api.book.updateProgress.useMutation();
+  const deleteBookMutation = api.book.deleteFromUserBooks.useMutation();
 
   const [bookProgress, setBookProgress] = useState<BookProgress>(
     userBook.progress as BookProgress,
@@ -75,6 +76,25 @@ export default function AccountBookListItem({
       },
     );
   };
+
+  const deleteBook = async () => {
+    deleteBookMutation.mutate(
+      {
+        userBookId: userBook.id,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Book deleted successfully", toastOptions);
+          myBooks.refetch().then().catch(console.error);
+        },
+        onError: (error) => {
+          toast.error(error.message, toastOptions);
+          console.error(error);
+        },
+      },
+    );
+  }
+
 
   return (
     <>
@@ -157,7 +177,7 @@ export default function AccountBookListItem({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction>Continue</AlertDialogAction>
+            <AlertDialogAction onClick={deleteBook}>Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
