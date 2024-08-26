@@ -101,7 +101,7 @@ export default function AccountBookListItem({
       <TableRow key={userBook.book.id}>
         <TableCell className="w-24 min-w-24 md:w-32">
           <Image
-            src={userBook.book.image}
+            src={userBook.book.image?? ""}
             alt="book cover"
             width={100}
             height={100}
