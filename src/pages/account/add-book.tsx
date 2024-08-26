@@ -47,11 +47,33 @@ export default function AddBook() {
       return;
     }
 
+    // cover img to base64
+    const coverInput = document.getElementById("cover") as HTMLInputElement;
+    const file = coverInput.files?.[0];
+
+    if (!file) {
+      toast.error("Please select a cover", toastOptions);
+      return;
+    }
+
+    let coverBase64 = "";
+
+    // convert to base64 and wait for it
+    await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        coverBase64 = reader.result as string;
+        resolve(null);
+      };
+      reader.readAsDataURL(file);
+    });
+
     addBookMutation.mutate(
       {
         title,
         author,
         description,
+        base64Cover: coverBase64,
       },
       {
         onSuccess: () => {

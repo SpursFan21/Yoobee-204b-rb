@@ -31,7 +31,7 @@ export default function BookPage() {
 
         {thisBook.error && <div>Error: {thisBook.error.message}</div>}
 
-        {!userBook.isLoading && !userBook.data && <div>you dont have this</div>}
+        {!userBook.isLoading && !userBook.data && <div>you don&apos;t have this</div>}
 
         {thisBook.data && userBook.data && (
           <div>
@@ -44,7 +44,7 @@ export default function BookPage() {
           <div className="flex gap-4">
             <div className="w-32">
               <Image
-                src={thisBook.data.image}
+                src={thisBook.data.image?? ""}
                 alt="book cover"
                 width={1000}
                 height={1000}

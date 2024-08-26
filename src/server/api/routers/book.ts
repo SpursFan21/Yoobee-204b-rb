@@ -2,6 +2,10 @@ import { z } from "zod";
 import { db } from "~/server/db";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import path from "path";
+import fs from "fs";
+import crypto from "crypto";
+import { TRPCError } from "@trpc/server";
 
 const getUserBooks = protectedProcedure.query(async ({ ctx }) => {
   const books = await db.userBook.findMany({
@@ -83,15 +87,74 @@ const addBook = protectedProcedure
       title: z.string(),
       author: z.string(),
       description: z.string(),
+      base64Cover: z.string(),
     }),
   )
   .mutation(async ({ input, ctx }) => {
+    const coverUUID = crypto.randomUUID();
+
+    const coversDir = path.join(process.cwd(), "public/covers");
+
+    // Extract MIME type from the Base64 string
+    const matches = input.base64Cover.match(/^data:(image\/\w+);base64,/);
+
+    if (!matches) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid image data",
+      });
+    }
+
+    console.log("matches", matches);
+
+    const mimeType = matches[1];
+    const base64Data = input.base64Cover.replace(
+      /^data:image\/\w+;base64,/,
+      "",
+    );
+
+    if (mimeType?.split("/").length !== 2) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid image data",
+      });
+    }
+
+    // Determine file extension based on MIME type
+    const extension = mimeType.split("/")[1];
+
+    if (!extension) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Invalid image data",
+      });
+    }
+
+    const filePath = path.join(coversDir, `cover-${coverUUID}.${extension}`);
+
+    // Validate image types (png, jpeg, gif, etc.)
+    const validImageTypes = ["png", "jpeg", "jpg"];
+    if (!validImageTypes.includes(extension)) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Unsupported image format",
+      });
+    }
+
+    if (!fs.existsSync(coversDir)) {
+      fs.mkdirSync(coversDir);
+    }
+
+    // Save the file with the correct extension
+    fs.writeFileSync(filePath, base64Data, "base64");
+
     const book = await db.book.create({
       data: {
         title: input.title,
         author: input.author,
         description: input.description,
-        image: "",
+        image: `/covers/cover-${coverUUID}.${extension}`,
+        b64Image: input.base64Cover,
         createdBy: {
           connect: {
             id: ctx.session?.user.id,
@@ -103,19 +166,24 @@ const addBook = protectedProcedure
     await db.userBook.create({
       data: {
         userId: ctx.session?.user.id,
-        bookId: book.id
+        bookId: book.id,
       },
     });
 
     return book;
   });
 
-  const deleteFromUserBooks = protectedProcedure.input(z.object({
-    userBookId: z.string(),
-  })).mutation(async ({ input, ctx }) => {
+const deleteFromUserBooks = protectedProcedure
+  .input(
+    z.object({
+      userBookId: z.string(),
+    }),
+  )
+  .mutation(async ({ input, ctx }) => {
     await db.userBook.delete({
       where: {
         id: input.userBookId,
+        userId: ctx.session?.user.id,
       },
     });
 
