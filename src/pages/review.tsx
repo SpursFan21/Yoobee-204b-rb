@@ -6,6 +6,22 @@ import { api } from "~/utils/api";
 import { toast } from "react-toastify";
 import toastOptions from "~/utils/toastOptions";
 import { Button } from "~/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "~/components/ui/command";
+import { cn } from "~/lib/utils";
+import { IconCheck, IconSelector } from "@tabler/icons-react";
+import { Textarea } from "~/components/ui/textarea";
 
 export default function ReviewPage() {
   // Fetch user data and books
@@ -13,6 +29,7 @@ export default function ReviewPage() {
   const userBooks = api.book.getUserBooks.useQuery();
 
   // State management
+  const [bookSelectOpen, setBookSelectOpen] = useState(false);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -21,12 +38,11 @@ export default function ReviewPage() {
   // tRPC mutation for creating a review
   const reviewMutation = api.review.create.useMutation({
     onSuccess: () => {
-      setMessage("Review submitted successfully!");
       setRating(0);
       setComment("");
       setSelectedBook("");
 
-      toast.success("Account edited successfully", toastOptions);
+      toast.success("Review submitted successfully", toastOptions);
 
       // Refetch the user's books
       userBooks.refetch().then().catch(console.error);
@@ -66,7 +82,7 @@ export default function ReviewPage() {
         </h1>
 
         {/* Dropdown for selecting a book */}
-        <div className="mb-8 w-96">
+        {/* <div className="mb-8 w-96">
           <label className="mb-2 block text-white">Select a Book:</label>
           <select
             value={selectedBook}
@@ -80,7 +96,59 @@ export default function ReviewPage() {
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
+
+        <Popover open={bookSelectOpen} onOpenChange={setBookSelectOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={bookSelectOpen}
+              className="mt-8 w-96 justify-between"
+            >
+              {/* Show the selected book title and author if a book is selected with the format (title) by (author) */}
+              {selectedBook
+                ? userBooks.data?.find((book) => book.book.id === selectedBook)
+                    ?.book.title +
+                  " by " +
+                  userBooks.data?.find((book) => book.book.id === selectedBook)
+                    ?.book.author
+                : "Select a book"}
+
+              <IconSelector className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="p-0">
+            <Command>
+              <CommandInput placeholder="Search framework..." />
+              <CommandList>
+                <CommandEmpty>No framework found.</CommandEmpty>
+                <CommandGroup>
+                  {userBooks.data?.map((book) => (
+                    <CommandItem
+                      key={book.id}
+                      value={book.book.id}
+                      onSelect={(currentValue) => {
+                        setSelectedBook(currentValue);
+                        setBookSelectOpen(false);
+                      }}
+                    >
+                      <IconCheck
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          selectedBook === book.book.id
+                            ? "opacity-100"
+                            : "opacity-0",
+                        )}
+                      />
+                      {book.book.title}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
 
         {/* Review Form */}
         <form onSubmit={handleSubmit} className="mt-8 w-96">
@@ -97,10 +165,10 @@ export default function ReviewPage() {
           </div>
           <div className="mb-4">
             <label className="block text-white">Comment:</label>
-            <textarea
+
+            <Textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="w-full rounded p-2"
             />
           </div>
           {/* <button
@@ -109,7 +177,11 @@ export default function ReviewPage() {
           >
             Submit Review
           </button> */}
-          <Button type="submit" className="mt-4">
+          <Button
+            type="submit"
+            className="mt-4"
+            disabled={!!selectedBook && !!rating && !!comment ? false : true}
+          >
             Submit Review
           </Button>
         </form>
