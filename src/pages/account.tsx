@@ -133,7 +133,14 @@ export default function Account() {
         <div className="max-w-full px-8 md:max-w-[80%] my-12">
           <div className="full flex justify-between items-center py-8">
             <h1 className="text-2xl md:text-4xl">Your Books:</h1>
-            <Button asChild><Link href={"/account/add-book"}>Add Book</Link></Button>
+            <div className="flex gap-4">
+              <Button asChild>
+                <Link href={"/review"}>Review Book</Link>
+              </Button>
+              <Button asChild>
+                <Link href={"/account/add-book"}>Add Book</Link>
+              </Button>
+            </div>
           </div>
 
           <Table>

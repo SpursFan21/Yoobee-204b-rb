@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Nav from "~/components/common/Nav";
-
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -11,6 +10,12 @@ export default function BookPage() {
   const myUser = api.user.getUser.useQuery();
   const thisBook = api.book.getBookById.useQuery({ id: bookId as string });
   const userBook = api.book.getUserBook.useQuery({
+    bookId: bookId as string,
+    userId: myUser.data?.user?.id ?? "",
+  });
+
+  // Fetch review data
+  const userReview = api.book.getUserReview.useQuery({
     bookId: bookId as string,
     userId: myUser.data?.user?.id ?? "",
   });
@@ -31,11 +36,11 @@ export default function BookPage() {
 
         {thisBook.error && <div>Error: {thisBook.error.message}</div>}
 
-        {!userBook.isLoading && !userBook.data && <div>you don&apos;t have this</div>}
+        {!userBook.isLoading && !userBook.data && <div>You don't have this</div>}
 
         {thisBook.data && userBook.data && (
           <div>
-            <h1>you have this</h1>
+            <h1>You have this</h1>
             <span>{userBook.data.progress}</span>
           </div>
         )}
@@ -44,7 +49,7 @@ export default function BookPage() {
           <div className="flex gap-4">
             <div className="w-32">
               <Image
-                src={thisBook.data.image?? ""}
+                src={thisBook.data.image ?? ""}
                 alt="book cover"
                 width={1000}
                 height={1000}
@@ -55,6 +60,17 @@ export default function BookPage() {
               <p>{thisBook.data.author}</p>
               <p>{thisBook.data.description}</p>
             </div>
+          </div>
+        )}
+
+        {/* Review Section */}
+        {userReview.isLoading && <p className="text-white">Loading review...</p>}
+        {userReview.error && <div>Error: {userReview.error.message}</div>}
+        {userReview.data && (
+          <div className="mt-8 w-96">
+            <h3 className="text-xl font-bold text-white">Your Review:</h3>
+            <p className="text-white">Rating: {userReview.data.rating}</p>
+            <p className="text-white">Comment: {userReview.data.comment}</p>
           </div>
         )}
       </main>
