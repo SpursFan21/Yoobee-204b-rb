@@ -3,11 +3,14 @@ import { useState } from "react";
 import Nav from "~/components/common/Nav";
 import Footer from "~/components/common/Footer";
 import { api } from "~/utils/api";
+import { toast } from "react-toastify";
+import toastOptions from "~/utils/toastOptions";
+import { Button } from "~/components/ui/button";
 
 export default function ReviewPage() {
   // Fetch user data and books
-  const { data: userData } = api.user.getUser.useQuery();
-  const { data: booksData } = api.book.getUserBooks.useQuery();
+  const myUser = api.user.getUser.useQuery();
+  const userBooks = api.book.getUserBooks.useQuery();
 
   // State management
   const [rating, setRating] = useState<number>(0);
@@ -22,9 +25,15 @@ export default function ReviewPage() {
       setRating(0);
       setComment("");
       setSelectedBook("");
+
+      toast.success("Account edited successfully", toastOptions);
+
+      // Refetch the user's books
+      userBooks.refetch().then().catch(console.error);
     },
     onError: (error) => {
       console.error("Error submitting review:", error);
+
       setMessage("An error occurred. Please try again.");
     },
   });
@@ -37,7 +46,6 @@ export default function ReviewPage() {
       rating,
       comment,
       bookId: selectedBook,
-      userId: userData?.user?.id,
     });
   };
 
@@ -49,7 +57,7 @@ export default function ReviewPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <Nav user={userData} />
+        <Nav user={myUser.data} />
 
         <div className="h-36"></div>
 
@@ -59,14 +67,14 @@ export default function ReviewPage() {
 
         {/* Dropdown for selecting a book */}
         <div className="mb-8 w-96">
-          <label className="block text-white mb-2">Select a Book:</label>
+          <label className="mb-2 block text-white">Select a Book:</label>
           <select
             value={selectedBook}
             onChange={(e) => setSelectedBook(e.target.value)}
-            className="w-full p-2 rounded bg-white text-black"
+            className="w-full rounded bg-white p-2 text-black"
           >
             <option value="">Select a book</option>
-            {booksData?.map((userBook) => (
+            {userBooks.data?.map((userBook) => (
               <option key={userBook.book.id} value={userBook.book.id}>
                 {userBook.book.title} by {userBook.book.author}
               </option>
@@ -84,7 +92,7 @@ export default function ReviewPage() {
               onChange={(e) => setRating(parseInt(e.target.value))}
               min="1"
               max="100"
-              className="w-full p-2 rounded"
+              className="w-full rounded p-2"
             />
           </div>
           <div className="mb-4">
@@ -92,18 +100,21 @@ export default function ReviewPage() {
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
-              className="w-full p-2 rounded"
+              className="w-full rounded p-2"
             />
           </div>
-          <button
+          {/* <button
             type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded"
+            className="rounded bg-blue-500 px-4 py-2 text-white"
           >
             Submit Review
-          </button>
+          </button> */}
+          <Button type="submit" className="mt-4">
+            Submit Review
+          </Button>
         </form>
 
-        {message && <p className="text-white mt-4">{message}</p>}
+        {message && <p className="mt-4 text-white">{message}</p>}
       </main>
       <Footer />
     </>
