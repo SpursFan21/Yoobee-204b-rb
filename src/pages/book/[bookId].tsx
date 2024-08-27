@@ -36,7 +36,7 @@ export default function BookPage() {
 
         {thisBook.error && <div>Error: {thisBook.error.message}</div>}
 
-        {!userBook.isLoading && !userBook.data && <div>You don't have this</div>}
+        {!userBook.isLoading && !userBook.data && <div>You don&apos;t have this</div>}
 
         {thisBook.data && userBook.data && (
           <div>
