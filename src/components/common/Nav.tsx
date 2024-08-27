@@ -20,6 +20,7 @@ type NavLinkProps = {
 const links: NavLinkProps[] = [
   { href: "/", text: "Home" },
   { href: "/about", text: "About" },
+  { href: "/review", text: "Review" },
 ];
 
 const animationOptions: Transition = {

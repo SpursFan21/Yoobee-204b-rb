@@ -81,6 +81,25 @@ const getUserBook = protectedProcedure
     return book;
   });
 
+  // New query for getting user review
+const getUserReview = protectedProcedure
+.input(
+  z.object({
+    bookId: z.string(),
+    userId: z.string(),
+  }),
+)
+.query(async ({ input }) => {
+  const review = await db.review.findFirst({
+    where: {
+      bookId: input.bookId,
+      userId: input.userId,
+    },
+  });
+
+  return review;
+});
+
 const addBook = protectedProcedure
   .input(
     z.object({
@@ -195,6 +214,7 @@ export const bookRouter = createTRPCRouter({
   getBookById,
   updateProgress,
   getUserBook,
+  getUserReview,
   addBook,
   deleteFromUserBooks,
 });
