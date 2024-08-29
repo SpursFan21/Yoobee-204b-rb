@@ -1,5 +1,5 @@
 import { IconBook } from "@tabler/icons-react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
 import Footer from "~/components/common/Footer";
@@ -10,6 +10,10 @@ import { api } from "~/utils/api";
 
 export default function Home() {
   const myUser = api.user.getUser.useQuery();
+
+  // const session = useSession();
+
+  // console.log("session", session);
 
   return (
     <>
