@@ -11,3 +11,8 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* Custom styles */
+.h2-large {
+  @apply text-2xl font-bold text-white;
+}
