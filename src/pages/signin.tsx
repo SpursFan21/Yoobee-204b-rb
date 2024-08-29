@@ -75,6 +75,12 @@ export default function SignIn({
   const [password, setPassword] = useState("");
 
   const credSignIn = async () => {
+    toast.error(
+      "Email and password disabled. Please use google sign in",
+      toastOptions,
+    );
+    return;
+
     if (!email || !password) {
       toast.error("Please enter your email and password", toastOptions);
       return;
@@ -89,7 +95,7 @@ export default function SignIn({
     console.log(res);
 
     if (res?.error) {
-      toast.error(res.error, toastOptions);
+      toast.error("Error Signing in", toastOptions);
 
       setEmail("");
       setPassword("");
