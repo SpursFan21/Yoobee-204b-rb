@@ -49,7 +49,7 @@ export default function BookPage() {
           <div className="flex gap-4">
             <div className="w-32">
               <Image
-                src={thisBook.data.image ?? ""}
+                src={thisBook.data.b64Image ?? ""}
                 alt="book cover"
                 width={1000}
                 height={1000}

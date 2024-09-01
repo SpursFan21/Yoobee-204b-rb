@@ -172,7 +172,6 @@ const addBook = protectedProcedure
         title: input.title,
         author: input.author,
         description: input.description,
-        image: `/covers/cover-${coverUUID}.${extension}`,
         b64Image: input.base64Cover,
         createdBy: {
           connect: {

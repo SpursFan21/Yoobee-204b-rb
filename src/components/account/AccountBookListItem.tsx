@@ -54,6 +54,9 @@ export default function AccountBookListItem({
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
+
+
+
   const changeProgress = async (value: string) => {
     const type = value as BookProgress;
     setBookProgress(type);
@@ -101,7 +104,7 @@ export default function AccountBookListItem({
       <TableRow key={userBook.book.id}>
         <TableCell className="w-24 min-w-24 md:w-32">
           <Image
-            src={userBook.book.image?? ""}
+            src={userBook.book.b64Image?? ""}
             alt="book cover"
             width={100}
             height={100}
