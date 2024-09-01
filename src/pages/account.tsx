@@ -75,7 +75,7 @@ export default function Account() {
         <Nav user={myUser.data} />
 
         <div className="mt-36 grid w-full grid-cols-1 gap-4">
-          <div className="flex justify-center ">
+          <div className="flex justify-center">
             <div className="h-32 w-32 overflow-hidden rounded-full">
               {myUser.data?.user?.image && (
                 <Image
@@ -130,9 +130,9 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="max-w-full px-8 md:max-w-[80%] my-12">
-          <div className="full flex justify-between items-center py-8">
-            <h1 className="text-2xl md:text-4xl">Your Books:</h1>
+        <div className="my-12 max-w-full px-8 md:max-w-[40rem] w-full">
+          <div className="full flex flex-col md:flex-row gap-4 items-center justify-between py-8">
+            <h1 className="text-3xl md:text-4xl">Your Books:</h1>
             <div className="flex gap-4">
               <Button asChild>
                 <Link href={"/review"}>Review Book</Link>
@@ -143,7 +143,7 @@ export default function Account() {
             </div>
           </div>
 
-          <Table>
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 <TableHead scope="col">Img</TableHead>

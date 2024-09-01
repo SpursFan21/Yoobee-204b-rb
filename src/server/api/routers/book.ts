@@ -78,24 +78,24 @@ const getUserBook = protectedProcedure
     return book;
   });
 
-  // New query for getting user review
+// New query for getting user review
 const getUserReview = protectedProcedure
-.input(
-  z.object({
-    bookId: z.string(),
-    userId: z.string(),
-  }),
-)
-.query(async ({ input }) => {
-  const review = await db.review.findFirst({
-    where: {
-      bookId: input.bookId,
-      userId: input.userId,
-    },
-  });
+  .input(
+    z.object({
+      bookId: z.string(),
+      userId: z.string(),
+    }),
+  )
+  .query(async ({ input }) => {
+    const review = await db.review.findFirst({
+      where: {
+        bookId: input.bookId,
+        userId: input.userId,
+      },
+    });
 
-  return review;
-});
+    return review;
+  });
 
 const addBook = protectedProcedure
   .input(
@@ -107,7 +107,6 @@ const addBook = protectedProcedure
     }),
   )
   .mutation(async ({ input, ctx }) => {
-
     // Extract MIME type from the Base64 string
     const matches = input.base64Cover.match(/^data:(image\/\w+);base64,/);
 
@@ -145,6 +144,16 @@ const addBook = protectedProcedure
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: "Unsupported image format",
+      });
+    }
+
+    // make sure the image is not too large
+    const maxFileSize = 1024 * 1024 * 8; // 8MB
+    const fileSize = input.base64Cover.length - matches[0].length;
+    if (fileSize > maxFileSize) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: "Image is too large. Max size is 8MB",
       });
     }
 

@@ -68,6 +68,32 @@ export default function AddBook() {
       reader.readAsDataURL(file);
     });
 
+    const matches = coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    console.log("matches", matches);
+    
+    if (!matches) {
+      toast.error("Invalid image", toastOptions);
+      return;
+    }
+    
+    const mimeType = matches[1];
+    console.log("mimeType", mimeType);
+    
+    if (!mimeType) {
+      toast.error("Invalid image", toastOptions);
+      return;
+    }
+    
+    const maxFileSize = 1024 * 1024 * 8 // 8MB
+    const fileSize = coverBase64.length
+
+    console.log("fileSize", fileSize);
+
+    if (fileSize > maxFileSize) {
+      toast.error("Image too large, Max size is 8MB", toastOptions);
+      return;
+    }
+
     addBookMutation.mutate(
       {
         title,
@@ -86,10 +112,11 @@ export default function AddBook() {
         },
         onError: (error) => {
           toast.error(error.message, toastOptions);
+          console.log(error);
         },
-      }
+      },
     );
-  }
+  };
 
   return (
     <>
@@ -101,7 +128,7 @@ export default function AddBook() {
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
         <Nav user={myUser.data} />
 
-        <div className="mt-36 mb-12 flex w-full flex-col items-center">
+        <div className="mb-12 mt-36 flex w-full flex-col items-center">
           <h1 className="mt-8 text-4xl font-bold text-white">Add a book</h1>
           <div className="mt-8 flex w-full flex-col items-center gap-4">
             <div className="grid w-full max-w-sm items-center gap-1.5">
