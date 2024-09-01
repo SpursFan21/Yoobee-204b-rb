@@ -2,9 +2,6 @@ import { z } from "zod";
 import { db } from "~/server/db";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import path from "path";
-import fs from "fs";
-import crypto from "crypto";
 import { TRPCError } from "@trpc/server";
 
 const getUserBooks = protectedProcedure.query(async ({ ctx }) => {
@@ -110,9 +107,6 @@ const addBook = protectedProcedure
     }),
   )
   .mutation(async ({ input, ctx }) => {
-    const coverUUID = crypto.randomUUID();
-
-    const coversDir = path.join(process.cwd(), "public/covers");
 
     // Extract MIME type from the Base64 string
     const matches = input.base64Cover.match(/^data:(image\/\w+);base64,/);
@@ -127,10 +121,6 @@ const addBook = protectedProcedure
     console.log("matches", matches);
 
     const mimeType = matches[1];
-    const base64Data = input.base64Cover.replace(
-      /^data:image\/\w+;base64,/,
-      "",
-    );
 
     if (mimeType?.split("/").length !== 2) {
       throw new TRPCError({
@@ -149,8 +139,6 @@ const addBook = protectedProcedure
       });
     }
 
-    const filePath = path.join(coversDir, `cover-${coverUUID}.${extension}`);
-
     // Validate image types (png, jpeg, gif, etc.)
     const validImageTypes = ["png", "jpeg", "jpg"];
     if (!validImageTypes.includes(extension)) {
@@ -159,13 +147,6 @@ const addBook = protectedProcedure
         message: "Unsupported image format",
       });
     }
-
-    if (!fs.existsSync(coversDir)) {
-      fs.mkdirSync(coversDir);
-    }
-
-    // Save the file with the correct extension
-    fs.writeFileSync(filePath, base64Data, "base64");
 
     const book = await db.book.create({
       data: {
