@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Star } from "lucide-react";
 import { type Book } from "@prisma/client";
 import Image from "next/image";
 import StarRating from "./StarRating";

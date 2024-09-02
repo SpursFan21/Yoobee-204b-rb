@@ -1,4 +1,4 @@
-import { Review, type Book, type UserBook } from "@prisma/client";
+import { type Review, type Book } from "@prisma/client";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -23,7 +23,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
-  DialogTitle,
 } from "~/components/ui/dialog";
 import {
   AlertDialog,
@@ -72,12 +71,6 @@ export default function AccountReviewListItem({
     );
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const publicationDateString =
-    review.book.publicationDate instanceof Date
-      ? // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-        review.book.publicationDate.toDateString()
-      : "Unknown";
 
   return (
     <>

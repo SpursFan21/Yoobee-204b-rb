@@ -89,6 +89,7 @@ export const authOptions: NextAuthOptions = {
         const user = await getUserCred(email);
 
         console.log("user", user);
+        password;
 
         if (user) {
           return user;
