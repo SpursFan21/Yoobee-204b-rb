@@ -85,8 +85,9 @@ model Book {
     // image       String?
     b64Image    String?
 
-    // copys      Int
-    // checkedOut Int
+    publisher  String?
+    publicationDate DateTime?
+
     users       UserBook[]
 
     createdById String?

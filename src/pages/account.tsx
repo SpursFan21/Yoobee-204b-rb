@@ -29,10 +29,12 @@ import {
 } from "~/components/ui/table";
 import Footer from "~/components/common/Footer";
 import Link from "next/link";
+import AccountReviewListItem from "~/components/account/AccountReviewListItem";
 
 export default function Account() {
   const myUser = api.user.getUser.useQuery();
   const myBooks = api.book.getUserBooks.useQuery();
+  const myUserReviews = api.user.getUserReviews.useQuery();
 
   const userMutation = api.user.updateUser.useMutation();
 
@@ -67,8 +69,8 @@ export default function Account() {
   return (
     <>
       <Head>
-        <title>Cool book library</title>
-        <meta name="description" content="Cool book library" />
+        <title>Book Thing | Account</title>
+        <meta name="description" content="Book Thing | Account" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center bg-zinc-950">
@@ -130,8 +132,8 @@ export default function Account() {
           </div>
         </div>
 
-        <div className="my-12 max-w-full px-8 md:max-w-[40rem] w-full">
-          <div className="full flex flex-col md:flex-row gap-4 items-center justify-between py-8">
+        <div className="my-12 w-full max-w-full px-8 md:max-w-[40rem]">
+          <div className="full flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
             <h1 className="text-3xl md:text-4xl">Your Books:</h1>
             <div className="flex gap-4">
               <Button asChild>
@@ -156,6 +158,27 @@ export default function Account() {
             <TableBody>
               {myBooks.data?.map((userBook) => (
                 <AccountBookListItem key={userBook.id} userBook={userBook} />
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+
+        <div className="my-12 w-full max-w-full px-8 md:max-w-[40rem]">
+          <div className="full flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
+            <h1 className="text-3xl md:text-4xl">Your Reviews:</h1>
+          </div>
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead scope="col">Book</TableHead>
+                <TableHead scope="col">Title</TableHead>
+                <TableHead scope="col">Rating</TableHead>
+                <TableHead scope="col">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {myUserReviews.data?.map((review) => (
+                <AccountReviewListItem key={review.id} review={review} />
               ))}
             </TableBody>
           </Table>

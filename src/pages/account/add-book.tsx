@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/button";
 
 export default function AddBook() {
+  
   const myUser = api.user.getUser.useQuery();
   const addBookMutation = api.book.addBook.useMutation();
 
@@ -22,6 +23,8 @@ export default function AddBook() {
   const [author, setAuthor] = useState("");
   const [cover, setCover] = useState("");
   const [description, setDescription] = useState("");
+  const [publisher, setPublisher] = useState("");
+  const [publicationDate, setPublicationDate] = useState("");
   const [coverPreview, setCoverPreview] = useState("");
 
   useEffect(() => {
@@ -70,22 +73,22 @@ export default function AddBook() {
 
     const matches = coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
     console.log("matches", matches);
-    
+
     if (!matches) {
       toast.error("Invalid image", toastOptions);
       return;
     }
-    
+
     const mimeType = matches[1];
     console.log("mimeType", mimeType);
-    
+
     if (!mimeType) {
       toast.error("Invalid image", toastOptions);
       return;
     }
-    
-    const maxFileSize = 1024 * 1024 * 8 // 8MB
-    const fileSize = coverBase64.length
+
+    const maxFileSize = 1024 * 1024 * 8; // 8MB
+    const fileSize = coverBase64.length;
 
     console.log("fileSize", fileSize);
 
@@ -99,6 +102,8 @@ export default function AddBook() {
         title,
         author,
         description,
+        publisher,
+        publicationDate,
         base64Cover: coverBase64,
       },
       {
@@ -108,6 +113,8 @@ export default function AddBook() {
           setAuthor("");
           setCover("");
           setDescription("");
+          setPublisher("");
+          setPublicationDate("");
           setCoverPreview("");
 
           // redirect to account page
@@ -119,8 +126,6 @@ export default function AddBook() {
         },
       },
     );
-
-    
   };
 
   return (
@@ -167,6 +172,39 @@ export default function AddBook() {
               />
             </div>
 
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                id="description"
+                className="bg-zinc-850 w-full rounded-md p-2 text-white"
+                placeholder="Harry Potter is a series of seven fantasy novels written by British author, J. K. Rowling."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="publisher">Publisher</Label>
+              <Input
+                id="publisher"
+                placeholder="Bloomsbury"
+                value={publisher}
+                onChange={(e) => setPublisher(e.target.value)}
+              />
+            </div>
+
+            <div className="grid w-full max-w-sm items-center gap-1.5">
+              <Label htmlFor="publicationDate">Publication Date</Label>
+              <Input
+                id="publicationDate"
+                type="date"
+                value={publicationDate}
+                onChange={(e) => setPublicationDate(e.target.value)}
+              />
+            </div>
+
+
+
             {coverPreview && (
               <div className="grid w-full max-w-sm items-center gap-1.5">
                 <Label>Preview</Label>
@@ -180,17 +218,6 @@ export default function AddBook() {
                 </div>
               </div>
             )}
-
-            <div className="grid w-full max-w-sm items-center gap-1.5">
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                className="bg-zinc-850 w-full rounded-md p-2 text-white"
-                placeholder="Harry Potter is a series of seven fantasy novels written by British author, J. K. Rowling."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
 
             <Button onClick={addBook}>Add Book</Button>
           </div>

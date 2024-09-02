@@ -51,7 +51,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { set } from "zod";
 
 type AccountBookListProps = {
   userBook: UserBook & { book: Book };
@@ -155,7 +154,7 @@ export default function AccountBookListItem({
             />
           </Link>
         </TableCell>
-        <TableCell>{userBook.book.title}</TableCell>
+        <TableCell className="font-semibold">{userBook.book.title}</TableCell>
         <TableCell>{userBook.book.author}</TableCell>
         <TableCell>{userBook.progress}</TableCell>
         <TableCell>
@@ -169,7 +168,7 @@ export default function AccountBookListItem({
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                  <Link href={`/book/${userBook.book.id}`}>View</Link>
+                  <Link href={`/book/${userBook.book.id}`}>View Book</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={openDialog}>Edit</DropdownMenuItem>
                 <DropdownMenuSub>

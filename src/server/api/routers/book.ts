@@ -80,24 +80,6 @@ const getUserBook = protectedProcedure
     return book;
   });
 
-// New query for getting user review
-const getUserReview = protectedProcedure
-  .input(
-    z.object({
-      bookId: z.string(),
-      userId: z.string(),
-    }),
-  )
-  .query(async ({ input }) => {
-    const review = await db.review.findFirst({
-      where: {
-        bookId: input.bookId,
-        userId: input.userId,
-      },
-    });
-
-    return review;
-  });
 
 const addBook = protectedProcedure
   .input(
@@ -106,6 +88,8 @@ const addBook = protectedProcedure
       author: z.string(),
       description: z.string(),
       base64Cover: z.string(),
+      publisher: z.string(),
+      publicationDate: z.string(),
     }),
   )
   .mutation(async ({ input, ctx }) => {
@@ -167,7 +151,7 @@ const addBook = protectedProcedure
 
     // Resize the image to 300x300 but keep the aspect ratio and convert to webp
     const resizedImage = await sharp(buffer)
-      .resize({ width: 300, height: 300, fit: "contain" })
+      .resize({ width: 300, height: 400, fit: "contain" })
       .webp()
       .toBuffer();
 
@@ -178,6 +162,8 @@ const addBook = protectedProcedure
         title: input.title,
         author: input.author,
         description: input.description,
+        publisher: input.publisher,
+        publicationDate: new Date(input.publicationDate),
         b64Image: webImage,
         createdBy: {
           connect: {
@@ -219,7 +205,6 @@ export const bookRouter = createTRPCRouter({
   getBookById,
   updateProgress,
   getUserBook,
-  getUserReview,
   addBook,
   deleteFromUserBooks,
 });
