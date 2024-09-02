@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { db } from "~/server/db";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
 import sharp from "sharp";
@@ -23,7 +23,7 @@ const getUserBooks = protectedProcedure.query(async ({ ctx }) => {
   return books;
 });
 
-const getBookById = protectedProcedure
+const getBookById = publicProcedure
   .input(
     z.object({
       id: z.string(),
@@ -56,24 +56,6 @@ const updateProgress = protectedProcedure
       },
       data: {
         progress: input.progress,
-      },
-    });
-
-    return book;
-  });
-
-const getUserBook = protectedProcedure
-  .input(
-    z.object({
-      bookId: z.string(),
-      userId: z.string(),
-    }),
-  )
-  .query(async ({ input }) => {
-    const book = await db.userBook.findFirst({
-      where: {
-        userId: input.userId,
-        bookId: input.bookId,
       },
     });
 
@@ -204,7 +186,6 @@ export const bookRouter = createTRPCRouter({
   getUserBooks,
   getBookById,
   updateProgress,
-  getUserBook,
   addBook,
   deleteFromUserBooks,
 });

@@ -6,7 +6,7 @@ import BookCard from "~/components/Review/BookCard";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
 import UserReview from "~/components/Review/UserReview";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function BookPage() {
   const { bookId } = useRouter().query;
