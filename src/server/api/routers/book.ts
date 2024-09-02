@@ -4,6 +4,8 @@ import { db } from "~/server/db";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
+import sharp from "sharp";
+
 const getUserBooks = protectedProcedure.query(async ({ ctx }) => {
   const books = await db.userBook.findMany({
     where: {
@@ -157,12 +159,26 @@ const addBook = protectedProcedure
       });
     }
 
+    // Create a buffer from the Base64 string
+    const buffer = Buffer.from(
+      input.base64Cover.replace(/^data:image\/\w+;base64,/, ""),
+      "base64",
+    );
+
+    // Resize the image to 300x300 but keep the aspect ratio and convert to webp
+    const resizedImage = await sharp(buffer)
+      .resize({ width: 300, height: 300, fit: "contain" })
+      .webp()
+      .toBuffer();
+
+    const webImage = `data:image/webp;base64,${resizedImage.toString("base64")}`;
+
     const book = await db.book.create({
       data: {
         title: input.title,
         author: input.author,
         description: input.description,
-        b64Image: input.base64Cover,
+        b64Image: webImage,
         createdBy: {
           connect: {
             id: ctx.session?.user.id,

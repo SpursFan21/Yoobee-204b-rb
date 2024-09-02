@@ -102,7 +102,7 @@ model UserBook {
     user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
     book   Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
-    progress String @default("not-started")
+    progress String @default("Not started")
 }
 
 model Review {

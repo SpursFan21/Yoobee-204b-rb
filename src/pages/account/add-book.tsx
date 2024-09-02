@@ -109,6 +109,9 @@ export default function AddBook() {
           setCover("");
           setDescription("");
           setCoverPreview("");
+
+          // redirect to account page
+          window.location.href = "/account";
         },
         onError: (error) => {
           toast.error(error.message, toastOptions);
@@ -116,6 +119,8 @@ export default function AddBook() {
         },
       },
     );
+
+    
   };
 
   return (

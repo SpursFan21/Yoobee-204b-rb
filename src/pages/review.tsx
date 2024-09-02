@@ -120,7 +120,7 @@ export default function ReviewPage() {
           </PopoverTrigger>
           <PopoverContent className="p-0">
             <Command>
-              <CommandInput placeholder="Search framework..." />
+              <CommandInput placeholder="Search Book..." />
               <CommandList>
                 <CommandEmpty>No framework found.</CommandEmpty>
                 <CommandGroup>
