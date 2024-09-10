@@ -1,3 +1,5 @@
+// next.config.js
+
 /**
  * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
  * for Docker builds.
@@ -9,7 +11,6 @@ const config = {
   reactStrictMode: true,
 
   images: {
-    // domains: ["cdn.discordapp.com","lh3.googleusercontent.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -32,11 +33,6 @@ const config = {
     ],
   },
 
-  /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
   i18n: {
     locales: ["en"],
     defaultLocale: "en",
@@ -44,11 +40,8 @@ const config = {
   transpilePackages: ["geist"],
 };
 
-export default config;
-// next.config.js // for aws deployment
-module.exports = {
-  server: {
-    port: process.env.PORT || 8081,
-  },
-}
+export const server = {
+  port: process.env.PORT || 8081,
+};
 
+export default config;
