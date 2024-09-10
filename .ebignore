@@ -1,2 +1,4 @@
-# next.js
-/.next/
+.next/
+node_modules/
+.git/
+.gitignore
