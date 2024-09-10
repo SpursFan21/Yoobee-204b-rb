@@ -45,3 +45,10 @@ const config = {
 };
 
 export default config;
+// next.config.js // for aws deployment
+module.exports = {
+  server: {
+    port: process.env.PORT || 8081,
+  },
+}
+
