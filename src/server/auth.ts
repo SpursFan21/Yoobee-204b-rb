@@ -39,6 +39,10 @@ export const authOptions: NextAuthOptions = {
   },
   //
   callbacks: {
+    async signIn({ user, account, profile }) {
+      console.log("Google OAuth callback hit:", { user, account, profile });
+      return true; // Ensure that the sign-in process continues
+    },
     session: ({ session, user }) => {
       if (session.user) {
         session.user = user as PUser;
