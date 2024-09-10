@@ -1,3 +1,12 @@
 {
-  "cSpell.words": ["headlessui", "lucide", "toastify", "Yoobee"]
+  "cSpell.words": [
+    "headlessui",
+    "lucide",
+    "toastify",
+    "Yoobee"
+  ],
+  "appService.zipIgnorePattern": [
+    "node_modules{,/**}",
+    ".vscode{,/**}"
+  ]
 }

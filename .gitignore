@@ -23,6 +23,10 @@ next-env.d.ts
 # production
 /build
 
+# azure
+/.deployment/
+.deployment
+
 # misc
 .DS_Store
 *.pem
