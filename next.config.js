@@ -40,8 +40,8 @@ const config = {
   transpilePackages: ["geist"],
 };
 
-export const server = {
-  port: process.env.PORT || 8081,
-};
+//export const server = {
+//  port: process.env.PORT || 8081,
+//};
 
 export default config;
